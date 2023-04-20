@@ -17,7 +17,7 @@
     <dimen name="btn_text_size">18sp</dimen>
 
 
-    <!-- Sign Up Screen -->
+    <!-- Sign Up Screen and Sign In Screen-->
     <dimen name="sign_up_screen_btn_marginTop">30dp</dimen>
     <dimen name="toolbar_title_text_size">18sp</dimen>
     <dimen name="authentication_screen_content_marginTop">40dp</dimen>
@@ -30,4 +30,5 @@
     <dimen name="authentication_screen_til_marginStartEnd">16dp</dimen>
     <dimen name="et_text_size">16sp</dimen>
     <dimen name="authentication_screen_til_marginTop">20dp</dimen>
+    <dimen name="authentication_screen_marginTop">60dp</dimen>
 </resources>
