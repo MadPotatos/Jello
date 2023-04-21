@@ -1,4 +1,4 @@
-package com.example.jello_projectmanag
+package com.example.jello_projectmanag.activities
 
 import android.content.Intent
 import android.graphics.Typeface

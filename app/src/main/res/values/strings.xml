@@ -13,4 +13,7 @@
     <string name="email">Email</string>
 
     <string name="sign_in_description_text">Enter email and password to start your project.</string>
+
+    <!--Strings for the Progress Bar-->
+    <string name="please_wait">Please Wait…</string>
 </resources>

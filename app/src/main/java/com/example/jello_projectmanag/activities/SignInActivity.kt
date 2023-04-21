@@ -1,12 +1,12 @@
-package com.example.jello_projectmanag
+package com.example.jello_projectmanag.activities
 
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.WindowInsets
 import android.view.WindowManager
+import com.example.jello_projectmanag.R
 import com.example.jello_projectmanag.databinding.ActivitySignInBinding
-import com.example.jello_projectmanag.databinding.ActivitySignUpBinding
 
 class SignInActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySignInBinding
