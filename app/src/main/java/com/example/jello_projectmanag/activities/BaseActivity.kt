@@ -13,11 +13,10 @@ import com.example.jello_projectmanag.databinding.DialogProgressBinding
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 
-class BaseActivity : AppCompatActivity() {
+open class BaseActivity : AppCompatActivity() {
 
     private  var doubleBackToExitPressedOnce = false
     private lateinit var mProcessDialog: Dialog
-    private lateinit var dialogBinding: DialogProgressBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,7 +25,7 @@ class BaseActivity : AppCompatActivity() {
 
     fun showProgressDialog(text: String) {
         mProcessDialog = Dialog(this)
-        dialogBinding = DialogProgressBinding.inflate(layoutInflater)
+        val dialogBinding :DialogProgressBinding = DialogProgressBinding.inflate(layoutInflater)
         val view = dialogBinding.root
         mProcessDialog.setContentView(view)
         dialogBinding.tvProgressText.text = text
@@ -52,11 +51,9 @@ class BaseActivity : AppCompatActivity() {
         Handler(Looper.getMainLooper()).postDelayed({ doubleBackToExitPressedOnce = false }, 2000)
     }
 
-    fun showErrorSnackBar(message: String, errorMessage: Boolean) {
-        val snackBar =
-            Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG)
+    fun showErrorSnackBar(message: String) {
+        val snackBar = Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG)
         val snackBarView = snackBar.view
-        if (errorMessage) {
             snackBarView.setBackgroundColor(
                 ContextCompat.getColor(
                     this@BaseActivity,
@@ -65,6 +62,6 @@ class BaseActivity : AppCompatActivity() {
             )
 
             snackBar.show()
-        }
+
     }
 }

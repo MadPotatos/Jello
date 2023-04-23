@@ -16,4 +16,9 @@
 
     <!--Strings for the Progress Bar-->
     <string name="please_wait">Please Wait…</string>
+
+    <!--Strings for Error-->
+    <string name="err_msg_enter_name">Please enter a name</string>
+    <string name="err_msg_enter_email">Please enter an email</string>
+    <string name="err_msg_enter_password">Please enter a password</string>
 </resources>
