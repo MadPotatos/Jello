@@ -9,6 +9,8 @@ import android.view.WindowManager
 import android.widget.Toast
 import com.example.jello_projectmanag.R
 import com.example.jello_projectmanag.databinding.ActivitySignUpBinding
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 
 class SignUpActivity : BaseActivity() {
     private lateinit var binding: ActivitySignUpBinding
@@ -54,7 +56,23 @@ class SignUpActivity : BaseActivity() {
         val password: String = binding.etPassword.text.toString()
 
         if(validateForm(name, email, password)){
-            Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show()
+           showProgressDialog(resources.getString(R.string.please_wait))
+
+            // Create an instance and create a register a user with email and password
+            FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener { task ->
+                    hideProgressDialog()
+                    if(task.isSuccessful){
+                        val firebaseUser : FirebaseUser = task.result!!.user!!
+                        val registeredEmail = firebaseUser.email!!
+                        Toast.makeText(this, "You have successfully registered", Toast.LENGTH_SHORT).show()
+                        FirebaseAuth.getInstance().signOut()
+                        finish()
+
+                    }else{
+                        Toast.makeText(this, task.exception!!.message, Toast.LENGTH_SHORT).show()
+                    }
+                }
         }
     }
     private fun validateForm(name: String, email: String, password: String): Boolean {
