@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "556266641439",
-    "project_id": "jello-ef786",
-    "storage_bucket": "jello-ef786.appspot.com"
+    "project_number": "164321659973",
+    "project_id": "jello-b38f1",
+    "storage_bucket": "jello-b38f1.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:556266641439:android:baf3e5bfb10359504ddd2a",
+        "mobilesdk_app_id": "1:164321659973:android:9512628defb4697ef6272c",
         "android_client_info": {
           "package_name": "com.example.jello_projectmanag"
         }
       },
       "oauth_client": [
         {
-          "client_id": "556266641439-vivo6ljm318hs4cqalcuc75sep4ner5o.apps.googleusercontent.com",
+          "client_id": "164321659973-345o0usap55cbb8a3o48nam5u6dpnv37.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyC6PWAcDLm2Kr7sNQWDqWLTKKFyVTQBuRc"
+          "current_key": "AIzaSyD8MJFzPgFpqyFsVMPyi_uEM1B2b9cxyKc"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "556266641439-vivo6ljm318hs4cqalcuc75sep4ner5o.apps.googleusercontent.com",
+              "client_id": "164321659973-345o0usap55cbb8a3o48nam5u6dpnv37.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

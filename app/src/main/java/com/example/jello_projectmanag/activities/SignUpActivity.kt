@@ -1,7 +1,6 @@
 package com.example.jello_projectmanag.activities
 
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.WindowInsets
@@ -9,8 +8,11 @@ import android.view.WindowManager
 import android.widget.Toast
 import com.example.jello_projectmanag.R
 import com.example.jello_projectmanag.databinding.ActivitySignUpBinding
+import com.example.jello_projectmanag.firebase.FirestoreClass
+import com.example.jello_projectmanag.models.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+
 
 class SignUpActivity : BaseActivity() {
     private lateinit var binding: ActivitySignUpBinding
@@ -33,6 +35,13 @@ class SignUpActivity : BaseActivity() {
         }
 
     }
+    fun userRegisteredSuccess(){
+        Toast.makeText(this, "You have successfully registered", Toast.LENGTH_SHORT).show()
+        hideProgressDialog()
+        FirebaseAuth.getInstance().signOut()
+        finish()
+    }
+
     //Set up the action bar
     private fun setupActionBar() {
         setSupportActionBar(binding.toolbarSignUpActivity)
@@ -61,13 +70,14 @@ class SignUpActivity : BaseActivity() {
             // Create an instance and create a register a user with email and password
             FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener { task ->
-                    hideProgressDialog()
+
                     if(task.isSuccessful){
                         val firebaseUser : FirebaseUser = task.result!!.user!!
                         val registeredEmail = firebaseUser.email!!
-                        Toast.makeText(this, "You have successfully registered", Toast.LENGTH_SHORT).show()
-                        FirebaseAuth.getInstance().signOut()
-                        finish()
+                        val user = User(firebaseUser.uid, name, registeredEmail)
+                        // call the registerUser function of FireStoreClass to make an entry in the database.
+                        FirestoreClass().registerUser(this, user)
+
 
                     }else{
                         Toast.makeText(this, task.exception!!.message, Toast.LENGTH_SHORT).show()
