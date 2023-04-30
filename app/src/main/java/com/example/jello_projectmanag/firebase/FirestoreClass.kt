@@ -1,6 +1,7 @@
 package com.example.jello_projectmanag.firebase
 
 import android.util.Log
+import com.example.jello_projectmanag.activities.SignInActivity
 import com.example.jello_projectmanag.activities.SignUpActivity
 import com.example.jello_projectmanag.models.User
 import com.example.jello_projectmanag.utils.Constants
@@ -35,6 +36,25 @@ class FirestoreClass {
             }
     }
 
+    fun signInUser(activity: SignInActivity) {
+        mFireStore.collection(Constants.USERS)
+            .document(getCurrentUserID())
+            .get()
+            .addOnSuccessListener { document ->
+                Log.i(activity.javaClass.simpleName, document.toString())
+
+                val loggedInUser = document.toObject(User::class.java)!!
+
+                activity.signInSuccess(loggedInUser)
+            }
+            .addOnFailureListener { e ->
+                Log.e(
+                    activity.javaClass.simpleName,
+                    "Error writing document",
+                    e
+                )
+            }
+    }
 
     fun getCurrentUserID(): String {
         val currentUser = FirebaseAuth.getInstance().currentUser

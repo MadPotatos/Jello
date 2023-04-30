@@ -10,6 +10,8 @@ import android.view.WindowManager
 import android.widget.Toast
 import com.example.jello_projectmanag.R
 import com.example.jello_projectmanag.databinding.ActivitySignInBinding
+import com.example.jello_projectmanag.firebase.FirestoreClass
+import com.example.jello_projectmanag.models.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 
@@ -40,6 +42,13 @@ class SignInActivity : BaseActivity() {
 
     }
 
+    // Sign in success function
+    fun signInSuccess (user: User) {
+        hideProgressDialog()
+        startActivity(Intent(this, MainActivity::class.java))
+        finish()
+    }
+
     //Set up the action bar
     private fun setupActionBar() {
         setSupportActionBar(binding.toolbarSignInActivity)
@@ -67,8 +76,7 @@ class SignInActivity : BaseActivity() {
                     hideProgressDialog()
                     if (task.isSuccessful) {
                         // Sign in success
-                        val user = auth.currentUser
-                        startActivity(Intent(this, MainActivity::class.java))
+                      FirestoreClass().signInUser(this)
 
                     } else {
                         // Sign in failed
