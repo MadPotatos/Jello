@@ -1,4 +1,4 @@
-package com.example.jello_projectmanag
+package com.example.jello_projectmanag.activities
 
 import android.content.Intent
 import android.graphics.Typeface
@@ -10,6 +10,7 @@ import android.os.Looper
 import android.view.WindowInsets
 import android.view.WindowManager
 import com.example.jello_projectmanag.databinding.ActivitySplashBinding
+import com.example.jello_projectmanag.firebase.FirestoreClass
 
 
 class SplashActivity : AppCompatActivity() {
@@ -34,8 +35,16 @@ class SplashActivity : AppCompatActivity() {
         binding.tvSplashScreenTitle.typeface = typeFace
 
         Handler(Looper.getMainLooper()).postDelayed({
-            val intent = Intent(this@SplashActivity, IntroActivity::class.java)
-            startActivity(intent)
+            // If the user is signed in once and not signed out again from the app. So next time while coming into the app
+            val currentUserID = FirestoreClass().getCurrentUserID()
+            if (currentUserID.isNotEmpty()) {
+                // Start the Main Activity
+                startActivity(Intent(this@SplashActivity, MainActivity::class.java))
+            } else {
+                // Start the Intro Activity
+                startActivity(Intent(this@SplashActivity, IntroActivity::class.java))
+            }
+
             finish()
         }, 3000)
     }
