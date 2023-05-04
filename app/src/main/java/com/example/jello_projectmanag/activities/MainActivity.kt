@@ -3,10 +3,15 @@ package com.example.jello_projectmanag.activities
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.core.view.GravityCompat
+import com.bumptech.glide.Glide
 import com.example.jello_projectmanag.R
 import com.example.jello_projectmanag.databinding.ActivityMainBinding
+import com.example.jello_projectmanag.databinding.NavHeaderMainBinding
+import com.example.jello_projectmanag.firebase.FirestoreClass
+import com.example.jello_projectmanag.models.User
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 
@@ -22,6 +27,8 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         setupActionBar()
         // Set the navigation view click listener
         binding.navView.setNavigationItemSelectedListener(this)
+
+        FirestoreClass().signInUser(this)
     }
 
     private fun setupActionBar() {
@@ -45,13 +52,26 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
     // Back button functionality
     @Deprecated("Use doubleBackToExit() instead")
-override fun onBackPressed() {
+    override fun onBackPressed() {
         if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
             binding.drawerLayout.closeDrawer(GravityCompat.START)
         } else {
 
             doubleBackToExit()
         }
+    }
+
+    fun updateNavigationUserDetails(user: User) {
+        val headerView: View = binding.navView.getHeaderView(0)
+        val headerBinding: NavHeaderMainBinding = NavHeaderMainBinding.bind(headerView)
+        Glide
+            .with(this)
+            .load(user.image)
+            .centerCrop()
+            .placeholder(R.drawable.ic_nav_user)
+            .into(headerBinding.ivUserImage)
+
+        headerBinding.tvUsername.text = user.name
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
