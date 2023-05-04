@@ -2,7 +2,7 @@
     <string name="app_name">Jello</string>
     <string name="image_contentDescription">image</string>
     <string name="let_s_get_started_text">Let\'s Get started</string>
-    <string name="intro_text_description">Collaborate and Plan Together Across Multiple Devices on Trello.</string>
+    <string name="intro_text_description">Collaborate and Plan Together Across Multiple Devices on Jello.</string>
     <string name="sign_in">SIGN IN</string>
     <string name="sign_up">SIGN UP</string>
 
@@ -21,4 +21,8 @@
     <string name="err_msg_enter_name">Please enter a name</string>
     <string name="err_msg_enter_email">Please enter an email</string>
     <string name="err_msg_enter_password">Please enter a password</string>
+
+    <!--Strings for the Home Screen-->
+    <string name="nav_my_profile">My Profile</string>
+    <string name="nav_sign_out">Sign Out</string>
 </resources>
