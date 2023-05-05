@@ -26,7 +26,7 @@ class FirestoreClass {
             .set(userInfo, SetOptions.merge())
             .addOnSuccessListener {
 
-                // Here call a function of base activity for transferring the result to it.
+
                 activity.userRegisteredSuccess()
             }
             .addOnFailureListener { e ->
@@ -49,7 +49,7 @@ class FirestoreClass {
 
                 when (activity) {
                     is SignInActivity -> {
-                        activity.signInSuccess(loggedInUser)
+                        activity.signInSuccess()
                     }
                     is MainActivity -> {
                         activity.updateNavigationUserDetails(loggedInUser)

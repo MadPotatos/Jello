@@ -2,7 +2,6 @@ package com.example.jello_projectmanag.activities
 
 import android.content.Intent
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.WindowInsets
@@ -11,9 +10,7 @@ import android.widget.Toast
 import com.example.jello_projectmanag.R
 import com.example.jello_projectmanag.databinding.ActivitySignInBinding
 import com.example.jello_projectmanag.firebase.FirestoreClass
-import com.example.jello_projectmanag.models.User
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 
 class SignInActivity : BaseActivity() {
 
@@ -43,7 +40,7 @@ class SignInActivity : BaseActivity() {
     }
 
     // Sign in success function
-    fun signInSuccess (user: User) {
+    fun signInSuccess () {
         hideProgressDialog()
         startActivity(Intent(this, MainActivity::class.java))
         finish()
