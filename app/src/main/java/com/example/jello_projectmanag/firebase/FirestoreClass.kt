@@ -3,6 +3,7 @@ package com.example.jello_projectmanag.firebase
 import android.app.Activity
 import android.util.Log
 import com.example.jello_projectmanag.activities.MainActivity
+import com.example.jello_projectmanag.activities.MyProfileActivity
 import com.example.jello_projectmanag.activities.SignUpActivity
 import com.example.jello_projectmanag.activities.SignInActivity
 import com.example.jello_projectmanag.models.User
@@ -38,7 +39,7 @@ class FirestoreClass {
             }
     }
 
-    fun signInUser(activity: Activity) {
+    fun loadUserData(activity: Activity) {
         mFireStore.collection(Constants.USERS)
             .document(getCurrentUserID())
             .get()
@@ -53,6 +54,9 @@ class FirestoreClass {
                     }
                     is MainActivity -> {
                         activity.updateNavigationUserDetails(loggedInUser)
+                    }
+                    is MyProfileActivity -> {
+                        activity.setUserDataInUI(loggedInUser)
                     }
                 }
 

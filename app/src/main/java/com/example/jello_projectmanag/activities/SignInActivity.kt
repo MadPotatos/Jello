@@ -73,7 +73,7 @@ class SignInActivity : BaseActivity() {
                     hideProgressDialog()
                     if (task.isSuccessful) {
                         // Sign in success
-                      FirestoreClass().signInUser(this)
+                      FirestoreClass().loadUserData(this)
 
                     } else {
                         // Sign in failed
