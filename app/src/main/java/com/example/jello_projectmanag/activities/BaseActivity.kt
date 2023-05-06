@@ -13,6 +13,8 @@ import com.google.android.material.snackbar.Snackbar
 
 open class BaseActivity : AppCompatActivity() {
 
+
+
     private  var doubleBackToExitPressedOnce = false
     private lateinit var mProcessDialog: Dialog
 
