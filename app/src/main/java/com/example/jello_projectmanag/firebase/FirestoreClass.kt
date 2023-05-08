@@ -2,7 +2,9 @@ package com.example.jello_projectmanag.firebase
 
 import android.app.Activity
 import android.util.Log
+import android.widget.Toast
 import com.example.jello_projectmanag.activities.MainActivity
+import com.example.jello_projectmanag.activities.MyProfileActivity
 import com.example.jello_projectmanag.activities.SignUpActivity
 import com.example.jello_projectmanag.activities.SignInActivity
 import com.example.jello_projectmanag.models.User
@@ -26,7 +28,7 @@ class FirestoreClass {
             .set(userInfo, SetOptions.merge())
             .addOnSuccessListener {
 
-                // Here call a function of base activity for transferring the result to it.
+
                 activity.userRegisteredSuccess()
             }
             .addOnFailureListener { e ->
@@ -37,8 +39,26 @@ class FirestoreClass {
                 )
             }
     }
-
-    fun signInUser(activity: Activity) {
+    fun updateUserProfileData(activity: MyProfileActivity, userHashMap: HashMap<String, Any>) {
+        mFireStore.collection(Constants.USERS)
+            .document(getCurrentUserID())
+            .update(userHashMap)
+            .addOnSuccessListener {
+                Log.e(activity.javaClass.simpleName, "Profile Data updated successfully!")
+                Toast.makeText(activity, "Profile updated successfully!", Toast.LENGTH_SHORT).show()
+                activity.profileUpdateSuccess()
+            }
+            .addOnFailureListener { e ->
+                activity.hideProgressDialog()
+                Log.e(
+                    activity.javaClass.simpleName,
+                    "Error writing document",
+                    e
+                )
+                Toast.makeText(activity, "Error when updating the profile!", Toast.LENGTH_SHORT).show()
+            }
+    }
+    fun loadUserData(activity: Activity) {
         mFireStore.collection(Constants.USERS)
             .document(getCurrentUserID())
             .get()
@@ -49,10 +69,13 @@ class FirestoreClass {
 
                 when (activity) {
                     is SignInActivity -> {
-                        activity.signInSuccess(loggedInUser)
+                        activity.signInSuccess()
                     }
                     is MainActivity -> {
                         activity.updateNavigationUserDetails(loggedInUser)
+                    }
+                    is MyProfileActivity -> {
+                        activity.setUserDataInUI(loggedInUser)
                     }
                 }
 
