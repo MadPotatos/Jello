@@ -15,6 +15,19 @@
         android:background="@color/app_primary_color"
         app:popupTheme="@style/AppTheme.PopupOverlay" />
 
+
+
     </com.google.android.material.appbar.AppBarLayout>
     <include layout="@layout/main_content" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_create_board"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        app:srcCompat="@drawable/ic_vector_add_24dp"
+        android:backgroundTint="@color/app_secondary_color"
+        android:contentDescription="@string/fab_description" />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

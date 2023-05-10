@@ -41,6 +41,11 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         binding.navView.setNavigationItemSelectedListener(this)
 
         FirestoreClass().loadUserData(this)
+
+        binding.includedToolbar.fabCreateBoard.setOnClickListener {
+            val intent = Intent(this, CreateBoardActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun setupActionBar() {
