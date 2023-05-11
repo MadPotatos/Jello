@@ -12,6 +12,7 @@ import com.example.jello_projectmanag.databinding.ActivityMainBinding
 import com.example.jello_projectmanag.databinding.NavHeaderMainBinding
 import com.example.jello_projectmanag.firebase.FirestoreClass
 import com.example.jello_projectmanag.models.User
+import com.example.jello_projectmanag.utils.Constants
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 
@@ -19,7 +20,7 @@ import com.google.firebase.auth.FirebaseAuth
 class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
 
 
-
+    private lateinit var mUserName: String
     private lateinit var binding: ActivityMainBinding
 
     private val updateNavUserInfo = registerForActivityResult(
@@ -44,6 +45,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
         binding.includedToolbar.fabCreateBoard.setOnClickListener {
             val intent = Intent(this, CreateBoardActivity::class.java)
+            intent.putExtra(Constants.NAME, mUserName)
             startActivity(intent)
         }
     }
@@ -79,6 +81,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     }
 
     fun updateNavigationUserDetails(user: User) {
+        mUserName = user.name
         val headerView: View = binding.navView.getHeaderView(0)
         val headerBinding: NavHeaderMainBinding = NavHeaderMainBinding.bind(headerView)
         Glide

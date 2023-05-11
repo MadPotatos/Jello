@@ -3,10 +3,12 @@ package com.example.jello_projectmanag.firebase
 import android.app.Activity
 import android.util.Log
 import android.widget.Toast
+import com.example.jello_projectmanag.activities.CreateBoardActivity
 import com.example.jello_projectmanag.activities.MainActivity
 import com.example.jello_projectmanag.activities.MyProfileActivity
 import com.example.jello_projectmanag.activities.SignUpActivity
 import com.example.jello_projectmanag.activities.SignInActivity
+import com.example.jello_projectmanag.models.Board
 import com.example.jello_projectmanag.models.User
 import com.example.jello_projectmanag.utils.Constants
 import com.google.firebase.auth.FirebaseAuth
@@ -37,6 +39,23 @@ class FirestoreClass {
                     "Error writing document",
                     e
                 )
+            }
+    }
+
+    fun createBoard(activity: CreateBoardActivity, board: Board) {
+
+        mFireStore.collection(Constants.BOARDS)
+            .document()
+            .set(board, SetOptions.merge())
+            .addOnSuccessListener {
+                Log.e(activity.javaClass.simpleName, "Board created successfully!")
+                Toast.makeText(activity, "Board created successfully!", Toast.LENGTH_SHORT).show()
+                activity.boardCreatedSuccessfully()
+            }.addOnFailureListener{
+                exception ->
+                activity.hideProgressDialog()
+                Log.e(activity.javaClass.simpleName, "Error while creating a board.", exception)
+                Toast.makeText(activity, "Error while creating a board.", Toast.LENGTH_SHORT).show()
             }
     }
     fun updateUserProfileData(activity: MyProfileActivity, userHashMap: HashMap<String, Any>) {

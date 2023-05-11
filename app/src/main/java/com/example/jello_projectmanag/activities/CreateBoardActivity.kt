@@ -2,7 +2,6 @@ package com.example.jello_projectmanag.activities
 
 import android.app.Activity
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -13,9 +12,10 @@ import com.example.jello_projectmanag.databinding.ActivityCreateBoardBinding
 import com.example.jello_projectmanag.utils.Constants
 
 
-class CreateBoardActivity : AppCompatActivity() {
+class CreateBoardActivity : BaseActivity() {
 
     private lateinit var binding: ActivityCreateBoardBinding
+    private lateinit var mUserName: String
     private var mSelectedImageFileUri: Uri? = null
 
     val getBoardImage = registerForActivityResult(
@@ -43,6 +43,10 @@ class CreateBoardActivity : AppCompatActivity() {
 
         setupActionBar()
 
+        if(intent.hasExtra(Constants.NAME)){
+            mUserName = intent.getStringExtra(Constants.NAME).toString()
+        }
+
         binding.ivBoardImage.setOnClickListener{
             // If the permission is already allowed or we need to request for it.
             if(ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)
@@ -54,6 +58,11 @@ class CreateBoardActivity : AppCompatActivity() {
                     Constants.READ_STORAGE_PERMISSION_CODE)
             }
         }
+    }
+
+    fun boardCreatedSuccessfully(){
+        hideProgressDialog()
+        finish()
     }
     private fun setupActionBar() {
         setSupportActionBar(binding.toolbarCreateBoardActivity)
