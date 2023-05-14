@@ -38,7 +38,7 @@
     <dimen name="progress_text_marginStart">16dp</dimen>
     <dimen name="progress_text_size">16sp</dimen>
 
-    <!-- Home Screen -->
+    <!-- Main Screen -->
     <dimen name="height_of_nav_main">200dp</dimen>
     <dimen name="nav_image_size">80dp</dimen>
     <dimen name="nav_content_margin_StartEnd">16dp</dimen>
@@ -48,6 +48,20 @@
     <dimen name="nav_image_circular_border_width">1dp</dimen>
     <dimen name="nav_divider_height">0.5dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+
+    <!-- Main Screen Item -->
+    <dimen name="main_screen_content_padding">16dp</dimen>
+    <dimen name="no_boards_available_text_size">16sp</dimen>
+    <dimen name="item_board_content_marginBottom">10dp</dimen>
+    <dimen name="item_board_content_padding">10dp</dimen>
+    <dimen name="item_board_image_size">60dp</dimen>
+    <dimen name="item_board_image_circular_border_width">0.5dp</dimen>
+    <dimen name="item_board_name_layout_marginStart">10dp</dimen>
+    <dimen name="item_board_name_text_size">18sp</dimen>
+    <dimen name="item_board_created_by_text_size">14sp</dimen>
+    <dimen name="item_board_divider_marginTop">5dp</dimen>
+    <dimen name="item_board_divider_height">0.3dp</dimen>
+
 
     <!-- My Profile Screen -->
     <dimen name="my_profile_screen_content_marginStartEnd">16dp</dimen>
