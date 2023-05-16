@@ -6,11 +6,14 @@ import android.view.MenuItem
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.GravityCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.jello_projectmanag.R
+import com.example.jello_projectmanag.adapters.BoardItemsAdapter
 import com.example.jello_projectmanag.databinding.ActivityMainBinding
 import com.example.jello_projectmanag.databinding.NavHeaderMainBinding
 import com.example.jello_projectmanag.firebase.FirestoreClass
+import com.example.jello_projectmanag.models.Board
 import com.example.jello_projectmanag.models.User
 import com.example.jello_projectmanag.utils.Constants
 import com.google.android.material.navigation.NavigationView
@@ -31,6 +34,15 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             println("DEBUG: Failed to update user info")
         }
     }
+
+    private val updateBoardsList = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()) {
+        if (it.resultCode == RESULT_OK) {
+            FirestoreClass().getBoardsList(this)
+        }else{
+            println("DEBUG: Failed to update boards list")
+        }
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -41,12 +53,12 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         // Set the navigation view click listener
         binding.navView.setNavigationItemSelectedListener(this)
 
-        FirestoreClass().loadUserData(this)
+        FirestoreClass().loadUserData(this, true)
 
         binding.includedToolbar.fabCreateBoard.setOnClickListener {
             val intent = Intent(this, CreateBoardActivity::class.java)
             intent.putExtra(Constants.NAME, mUserName)
-            startActivity(intent)
+            updateBoardsList.launch(intent)
         }
     }
 
@@ -57,6 +69,25 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         toolbarBinding.setNavigationOnClickListener {
             // Toggle Drawer
             toggleDrawer()
+        }
+
+    }
+
+    fun populateBoardsListToUI(boardsList: ArrayList<Board>){
+        hideProgressDialog()
+        val mainContentBinding = binding.includedToolbar.includedMainContent
+        if (boardsList.size > 0) {
+
+            mainContentBinding.rvBoardsList.visibility = View.VISIBLE
+            mainContentBinding.tvNoBoardsAvailable.visibility = View.GONE
+
+            mainContentBinding.rvBoardsList.layoutManager = LinearLayoutManager(this)
+            mainContentBinding.rvBoardsList.setHasFixedSize(true)
+
+            mainContentBinding.rvBoardsList.adapter = BoardItemsAdapter(this, boardsList)
+        } else {
+            mainContentBinding.rvBoardsList.visibility = View.GONE
+            mainContentBinding.tvNoBoardsAvailable.visibility = View.VISIBLE
         }
 
     }
@@ -80,7 +111,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         }
     }
 
-    fun updateNavigationUserDetails(user: User) {
+    fun updateNavigationUserDetails(user: User, readBoardsList: Boolean) {
         mUserName = user.name
         val headerView: View = binding.navView.getHeaderView(0)
         val headerBinding: NavHeaderMainBinding = NavHeaderMainBinding.bind(headerView)
@@ -92,6 +123,11 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             .into(headerBinding.ivUserImage)
 
         headerBinding.tvUsername.text = user.name
+
+        if (readBoardsList) {
+            showProgressDialog(resources.getString(R.string.please_wait))
+            FirestoreClass().getBoardsList(this)
+        }
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
