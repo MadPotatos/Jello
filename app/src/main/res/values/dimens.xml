@@ -79,4 +79,7 @@
     <dimen name="board_image_size">100dp</dimen>
     <dimen name="create_board_til_marginTop">25dp</dimen>
     <dimen name="create_board_btn_marginTop">30dp</dimen>
+
+    <!-- Task List -->
+    <dimen name="task_list_content_padding">10dp</dimen>
 </resources>
