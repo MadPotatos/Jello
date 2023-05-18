@@ -8,6 +8,7 @@ import com.example.jello_projectmanag.activities.MainActivity
 import com.example.jello_projectmanag.activities.MyProfileActivity
 import com.example.jello_projectmanag.activities.SignUpActivity
 import com.example.jello_projectmanag.activities.SignInActivity
+import com.example.jello_projectmanag.activities.TaskListActivity
 import com.example.jello_projectmanag.models.Board
 import com.example.jello_projectmanag.models.User
 import com.example.jello_projectmanag.utils.Constants
@@ -56,6 +57,20 @@ class FirestoreClass {
                 activity.hideProgressDialog()
                 Log.e(activity.javaClass.simpleName, "Error while creating a board.", exception)
                 Toast.makeText(activity, "Error while creating a board.", Toast.LENGTH_SHORT).show()
+            }
+    }
+
+    fun getBoardDetails(activity: TaskListActivity, documentId: String){
+        mFireStore.collection(Constants.BOARDS)
+            .document(documentId)
+            .get()
+            .addOnSuccessListener { document ->
+                Log.i("Board Details", document.toString())
+
+                activity.boardDetails(document.toObject(Board::class.java)!!)
+            }.addOnFailureListener{
+                    exception ->
+                Log.e("Board Details", "Error while creating a board.", exception)
             }
     }
 

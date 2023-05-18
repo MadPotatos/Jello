@@ -16,6 +16,7 @@ object Constants {
     const val NAME: String = "name"
     const val MOBILE: String = "mobile"
     const val ASSIGNED_TO: String = "assignedTo"
+    const val DOCUMENT_ID: String = "documentId"
     const val READ_STORAGE_PERMISSION_CODE = 1
 
     fun showImageChooser(activity: Activity) {
