@@ -40,6 +40,20 @@ class TaskListItemsAdapter(private val context: Context,
                 holder.tvAddTaskList.visibility = ViewGroup.GONE
                 holder.llTaskItem.visibility = ViewGroup.VISIBLE
             }
+            holder.tvTaskListTitle.text = model.title
+            holder.tvAddTaskList.setOnClickListener{
+                holder.tvAddTaskList.visibility = ViewGroup.GONE
+                holder.cvAddTaskListName.visibility = ViewGroup.VISIBLE
+            }
+
+            holder.ibCloseListName.setOnClickListener{
+                holder.tvAddTaskList.visibility = ViewGroup.VISIBLE
+                holder.cvAddTaskListName.visibility = ViewGroup.GONE
+            }
+            holder.ibDoneListName.setOnClickListener{
+
+            }
+
         }
     }
 
@@ -59,6 +73,9 @@ class TaskListItemsAdapter(private val context: Context,
     private class MyViewHolder(binding: ItemTaskBinding): RecyclerView.ViewHolder(binding.root){
         val tvAddTaskList = binding.tvAddTaskList
         val llTaskItem = binding.llTaskItem
-
+        val tvTaskListTitle = binding.tvTaskListTitle
+        val cvAddTaskListName = binding.cvAddTaskListName
+        val ibCloseListName = binding.ibCloseListName
+        val ibDoneListName = binding.ibDoneListName
     }
 }

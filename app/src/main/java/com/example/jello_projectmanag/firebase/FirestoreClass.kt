@@ -66,8 +66,9 @@ class FirestoreClass {
             .get()
             .addOnSuccessListener { document ->
                 Log.i("Board Details", document.toString())
-
-                activity.boardDetails(document.toObject(Board::class.java)!!)
+                val board = document.toObject(Board::class.java)!!
+                board.documentId = document.id
+                activity.boardDetails(board)
             }.addOnFailureListener{
                     exception ->
                 Log.e("Board Details", "Error while creating a board.", exception)
@@ -94,6 +95,25 @@ class FirestoreClass {
                 Toast.makeText(activity, "Error while creating a board.", Toast.LENGTH_SHORT).show()
             }
     }
+
+    fun addUpdateTaskList(activity: TaskListActivity, board: Board){
+        val taskListHashMap = HashMap<String, Any>()
+        taskListHashMap[Constants.TASK_LIST] = board.taskList
+
+        mFireStore.collection(Constants.BOARDS)
+            .document(board.documentId)
+            .update(taskListHashMap)
+            .addOnSuccessListener {
+                Log.e(activity.javaClass.simpleName, "TaskList updated successfully!")
+                activity.addUpdateTaskListSuccess()
+            }.addOnFailureListener{
+                    exception ->
+                activity.hideProgressDialog()
+                Log.e(activity.javaClass.simpleName, "Error while creating a board.", exception)
+                Toast.makeText(activity, "Error while creating a board.", Toast.LENGTH_SHORT).show()
+            }
+    }
+
     fun updateUserProfileData(activity: MyProfileActivity, userHashMap: HashMap<String, Any>) {
         mFireStore.collection(Constants.USERS)
             .document(getCurrentUserID())
