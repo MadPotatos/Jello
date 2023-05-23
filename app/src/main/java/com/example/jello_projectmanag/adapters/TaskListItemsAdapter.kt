@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.RecyclerView
+import com.example.jello_projectmanag.activities.TaskListActivity
 import com.example.jello_projectmanag.databinding.ItemTaskBinding
 import com.example.jello_projectmanag.models.Task
 
@@ -51,7 +52,15 @@ class TaskListItemsAdapter(private val context: Context,
                 holder.cvAddTaskListName.visibility = ViewGroup.GONE
             }
             holder.ibDoneListName.setOnClickListener{
+                val listName = holder.etTaskListName.text.toString()
 
+                if(listName.isNotEmpty()) {
+                    if (context is TaskListActivity) {
+                        context.createTaskList(listName)
+                    }
+                }else{
+                    holder.etTaskListName.error = "Please enter a list name"
+                }
             }
 
         }
@@ -77,5 +86,6 @@ class TaskListItemsAdapter(private val context: Context,
         val cvAddTaskListName = binding.cvAddTaskListName
         val ibCloseListName = binding.ibCloseListName
         val ibDoneListName = binding.ibDoneListName
+        val etTaskListName = binding.etTaskListName
     }
 }
