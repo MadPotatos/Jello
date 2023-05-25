@@ -7,6 +7,7 @@ import com.example.jello_projectmanag.adapters.TaskListItemsAdapter
 import com.example.jello_projectmanag.databinding.ActivityTaskListBinding
 import com.example.jello_projectmanag.firebase.FirestoreClass
 import com.example.jello_projectmanag.models.Board
+import com.example.jello_projectmanag.models.Card
 import com.example.jello_projectmanag.models.Task
 import com.example.jello_projectmanag.utils.Constants
 
@@ -90,6 +91,27 @@ class TaskListActivity : BaseActivity() {
         mBoardDetails.taskList.removeAt(position)
 
         mBoardDetails.taskList.removeAt(mBoardDetails.taskList.size-1)
+
+        showProgressDialog(resources.getString(R.string.please_wait))
+        FirestoreClass().addUpdateTaskList(this,mBoardDetails)
+    }
+
+    fun addCardToTaskList(position: Int, cardName: String){
+        mBoardDetails.taskList.removeAt(mBoardDetails.taskList.size-1)
+
+        val cardAssignedUsersList: ArrayList<String> = ArrayList()
+        cardAssignedUsersList.add(FirestoreClass().getCurrentUserID())
+
+        val card = Card(cardName,FirestoreClass().getCurrentUserID(),cardAssignedUsersList)
+
+        val cardsList = mBoardDetails.taskList[position].cards
+        cardsList.add(card)
+
+        val task = Task(mBoardDetails.taskList[position].title,
+            mBoardDetails.taskList[position].createdBy,
+            cardsList)
+
+        mBoardDetails.taskList[position] = task
 
         showProgressDialog(resources.getString(R.string.please_wait))
         FirestoreClass().addUpdateTaskList(this,mBoardDetails)

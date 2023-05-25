@@ -87,6 +87,26 @@ class TaskListItemsAdapter(private val context: Context,
                 alertDialogForDeleteList(position, model.title)
             }
 
+            holder.tvAddCard.setOnClickListener{
+                holder.tvAddCard.visibility = ViewGroup.GONE
+                holder.cvAddCard.visibility = ViewGroup.VISIBLE
+            }
+
+            holder.ibCloseCardName.setOnClickListener{
+                holder.tvAddCard.visibility = ViewGroup.VISIBLE
+                holder.cvAddCard.visibility = ViewGroup.GONE
+            }
+
+            holder.ibDoneCardName.setOnClickListener {
+                val cardName = holder.etCardName.text.toString()
+                if(cardName.isNotEmpty()){
+                    if(context is TaskListActivity){
+                        context.addCardToTaskList(position, cardName)
+                    }
+                }else{
+                    holder.etCardName.error = "Please enter a card name"
+                }
+            }
         }
     }
 
@@ -127,13 +147,18 @@ class TaskListItemsAdapter(private val context: Context,
         val llTaskItem = binding.llTaskItem
         val llTitleView = binding.llTitleView
         val tvTaskListTitle = binding.tvTaskListTitle
+        val tvAddCard = binding.tvAddCard
         val cvAddTaskListName = binding.cvAddTaskListName
+        val cvAddCard = binding.cvAddCard
         val ibCloseListName = binding.ibCloseListName
         val ibDoneListName = binding.ibDoneListName
         val ibEditListName = binding.ibEditListName
         val ibDeleteList = binding.ibDeleteList
+        val ibCloseCardName = binding.ibCloseCardName
         val ibCloseEditableView = binding.ibCloseEditableView
         val ibDoneEditListName = binding.ibDoneEditListName
+        val ibDoneCardName = binding.ibDoneCardName
         val etTaskListName = binding.etTaskListName
+        val etCardName = binding.etCardName
     }
 }
