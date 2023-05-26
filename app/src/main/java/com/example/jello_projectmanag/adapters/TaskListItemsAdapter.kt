@@ -5,12 +5,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.appcompat.app.AlertDialog
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.jello_projectmanag.activities.TaskListActivity
 import com.example.jello_projectmanag.databinding.ItemTaskBinding
 import com.example.jello_projectmanag.models.Task
 
-class TaskListItemsAdapter(private val context: Context,
+open class TaskListItemsAdapter(private val context: Context,
                            private var list: ArrayList<Task>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val binding = ItemTaskBinding.inflate(
@@ -48,10 +49,13 @@ class TaskListItemsAdapter(private val context: Context,
                 holder.cvAddTaskListName.visibility = ViewGroup.VISIBLE
             }
 
+            // Set the click event for close list button.
             holder.ibCloseListName.setOnClickListener{
                 holder.tvAddTaskList.visibility = ViewGroup.VISIBLE
                 holder.cvAddTaskListName.visibility = ViewGroup.GONE
             }
+
+            // Set the click event for done list button.
             holder.ibDoneListName.setOnClickListener{
                 val listName = holder.etTaskListName.text.toString()
 
@@ -63,16 +67,21 @@ class TaskListItemsAdapter(private val context: Context,
                     holder.etTaskListName.error = "Please enter a list name"
                 }
             }
+
+            // Set the click event for edit list button.
                 holder.ibEditListName.setOnClickListener {
                     holder.etTaskListName.setText(model.title)
                     holder.llTitleView.visibility = ViewGroup.GONE
                     holder.cvAddTaskListName.visibility = ViewGroup.VISIBLE
                 }
+
+            // Set the click event for close edit list button.
             holder.ibCloseEditableView.setOnClickListener{
                 holder.llTitleView.visibility = ViewGroup.VISIBLE
                 holder.cvAddTaskListName.visibility = ViewGroup.GONE
             }
 
+            // Set the click event for done edit list button.
             holder.ibDoneEditListName.setOnClickListener {
                 val listName = holder.etTaskListName.text.toString()
                 if(listName.isNotEmpty()) {
@@ -83,20 +92,25 @@ class TaskListItemsAdapter(private val context: Context,
                     holder.etTaskListName.error = "Please enter a list name"
                 }
             }
+
+            // Set the click event for delete list button.
             holder.ibDeleteList.setOnClickListener{
                 alertDialogForDeleteList(position, model.title)
             }
 
+            // Set the click event for add card button.
             holder.tvAddCard.setOnClickListener{
                 holder.tvAddCard.visibility = ViewGroup.GONE
                 holder.cvAddCard.visibility = ViewGroup.VISIBLE
             }
 
+            // Set the click event for close card button.
             holder.ibCloseCardName.setOnClickListener{
                 holder.tvAddCard.visibility = ViewGroup.VISIBLE
                 holder.cvAddCard.visibility = ViewGroup.GONE
             }
 
+            // Set the click event for done card button.
             holder.ibDoneCardName.setOnClickListener {
                 val cardName = holder.etCardName.text.toString()
                 if(cardName.isNotEmpty()){
@@ -107,6 +121,13 @@ class TaskListItemsAdapter(private val context: Context,
                     holder.etCardName.error = "Please enter a card name"
                 }
             }
+
+            // Set RecyclerView for cards list.
+            holder.rvCardList.layoutManager = LinearLayoutManager(context)
+
+            holder.rvCardList.setHasFixedSize(true)
+            val adapter = CardListItemsAdapter(context, model.cards)
+            holder.rvCardList.adapter = adapter
         }
     }
 
@@ -160,5 +181,6 @@ class TaskListItemsAdapter(private val context: Context,
         val ibDoneCardName = binding.ibDoneCardName
         val etTaskListName = binding.etTaskListName
         val etCardName = binding.etCardName
+        val rvCardList = binding.rvCardList
     }
 }
