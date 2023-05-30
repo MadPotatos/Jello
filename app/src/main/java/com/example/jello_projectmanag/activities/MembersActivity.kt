@@ -2,14 +2,17 @@ package com.example.jello_projectmanag.activities
 
 import android.os.Build
 import android.os.Build.VERSION
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.jello_projectmanag.R
+import com.example.jello_projectmanag.adapters.MemberListItemsAdapter
 import com.example.jello_projectmanag.databinding.ActivityMembersBinding
+import com.example.jello_projectmanag.firebase.FirestoreClass
 import com.example.jello_projectmanag.models.Board
+import com.example.jello_projectmanag.models.User
 import com.example.jello_projectmanag.utils.Constants
 
-class MembersActivity : AppCompatActivity() {
+class MembersActivity : BaseActivity() {
 
     private lateinit var mBoardDetails: Board
     private lateinit var binding: ActivityMembersBinding
@@ -30,6 +33,19 @@ class MembersActivity : AppCompatActivity() {
         }
 
         setupActionBar()
+
+        showProgressDialog(resources.getString(R.string.please_wait))
+        FirestoreClass().getAssignedMembersListDetails(this, mBoardDetails.assignedTo)
+    }
+
+    fun setupMembersList(list: ArrayList<User>){
+       hideProgressDialog()
+
+        binding.rvMembersList.layoutManager = LinearLayoutManager(this)
+        binding.rvMembersList.setHasFixedSize(true)
+
+        val adapter = MemberListItemsAdapter(this, list)
+        binding.rvMembersList.adapter = adapter
     }
     private fun setupActionBar() {
         setSupportActionBar(binding.toolbarMembersActivity)
