@@ -205,4 +205,43 @@ class FirestoreClass {
                 Toast.makeText(activity, "Error while creating a board.", Toast.LENGTH_SHORT).show()
             }
     }
+
+    fun  getMemberDetails(activity: MembersActivity, email: String) {
+        mFireStore.collection(Constants.USERS)
+            .whereEqualTo(Constants.EMAIL, email)
+            .get()
+            .addOnSuccessListener { document ->
+                Log.i(activity.javaClass.simpleName, document.documents.toString())
+                if (document.documents.size > 0) {
+                    val user = document.documents[0].toObject(User::class.java)!!
+                    activity.memberDetails(user)
+                } else {
+                    activity.hideProgressDialog()
+                    activity.showErrorSnackBar("User not found!")
+                }
+            }.addOnFailureListener{
+                    exception ->
+                activity.hideProgressDialog()
+                Log.e(activity.javaClass.simpleName, "Error while getting user detail", exception)
+                Toast.makeText(activity, "Error while getting user detail.", Toast.LENGTH_SHORT).show()
+            }
+    }
+
+    fun assignMemberToBoard(activity: MembersActivity, board: Board, user: User) {
+        val assignedToHashMap = HashMap<String, Any>()
+        assignedToHashMap[Constants.ASSIGNED_TO] = board.assignedTo
+
+        mFireStore.collection(Constants.BOARDS)
+            .document(board.documentId)
+            .update(assignedToHashMap)
+            .addOnSuccessListener {
+                Log.e(activity.javaClass.simpleName, "Member assigned successfully!")
+                activity.memberAssignSuccess(user)
+            }.addOnFailureListener{
+                    exception ->
+                activity.hideProgressDialog()
+                Log.e(activity.javaClass.simpleName, "Error while getting user detail.", exception)
+                Toast.makeText(activity, "Error while getting user detail.", Toast.LENGTH_SHORT).show()
+            }
+    }
 }
