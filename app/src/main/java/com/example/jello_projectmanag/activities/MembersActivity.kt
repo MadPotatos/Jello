@@ -6,6 +6,7 @@ import android.os.Build.VERSION
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.OnBackPressedCallback
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.jello_projectmanag.R
 import com.example.jello_projectmanag.adapters.MemberListItemsAdapter
@@ -16,11 +17,17 @@ import com.example.jello_projectmanag.models.Board
 import com.example.jello_projectmanag.models.User
 import com.example.jello_projectmanag.utils.Constants
 
+
+
 class MembersActivity : BaseActivity() {
 
     private lateinit var mBoardDetails: Board
     private lateinit var binding: ActivityMembersBinding
     private lateinit var mAssignedMembersList: ArrayList<User>
+    private var anyChangesMade: Boolean = false
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMembersBinding.inflate(layoutInflater)
@@ -41,6 +48,15 @@ class MembersActivity : BaseActivity() {
 
         showProgressDialog(resources.getString(R.string.please_wait))
         FirestoreClass().getAssignedMembersListDetails(this, mBoardDetails.assignedTo)
+
+        onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true){
+            override fun handleOnBackPressed() {
+                if(anyChangesMade){
+                    setResult(RESULT_OK)
+                }
+                finish()
+            }
+        })
     }
 
     fun setupMembersList(list: ArrayList<User>){
@@ -106,9 +122,13 @@ class MembersActivity : BaseActivity() {
         dialog.show()
     }
 
+
+
     fun memberAssignSuccess(user: User){
         hideProgressDialog()
         mAssignedMembersList.add(user)
+
+        anyChangesMade = true
         setupMembersList(mAssignedMembersList)
     }
 }

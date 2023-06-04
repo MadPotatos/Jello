@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.jello_projectmanag.R
 import com.example.jello_projectmanag.adapters.TaskListItemsAdapter
@@ -17,21 +18,38 @@ import com.example.jello_projectmanag.utils.Constants
 class TaskListActivity : BaseActivity() {
 
     private lateinit var mBoardDetails: Board
+    private lateinit var mBoardDocumentId: String
     private lateinit var binding: ActivityTaskListBinding
+
+    private val reloadBoard = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()) {
+        if (it.resultCode == RESULT_OK) {
+            showProgressDialog(resources.getString(R.string.please_wait))
+            FirestoreClass().getBoardDetails(this,mBoardDocumentId)
+        }else{
+            println("DEBUG: Failed to reload board")
+        }
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityTaskListBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
 
-        var boardDocumentId = ""
+
         if(intent.hasExtra(Constants.DOCUMENT_ID)){
-            boardDocumentId = intent.getStringExtra(Constants.DOCUMENT_ID)!!
+            mBoardDocumentId = intent.getStringExtra(Constants.DOCUMENT_ID)!!
         }
 
 
         showProgressDialog(resources.getString(R.string.please_wait))
-        FirestoreClass().getBoardDetails(this,boardDocumentId)
+        FirestoreClass().getBoardDetails(this,mBoardDocumentId)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        showProgressDialog(resources.getString(R.string.please_wait))
+        FirestoreClass().getBoardDetails(this,mBoardDocumentId)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -44,7 +62,7 @@ class TaskListActivity : BaseActivity() {
             R.id.action_members ->{
                 val intent = Intent(this, MembersActivity::class.java)
                 intent.putExtra(Constants.BOARD_DETAIL,mBoardDetails)
-               startActivity(intent)
+                reloadBoard.launch(intent)
             }
         }
         return super.onOptionsItemSelected(item)
