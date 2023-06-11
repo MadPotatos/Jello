@@ -3,6 +3,7 @@ package com.example.jello_projectmanag.activities
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
 import com.example.jello_projectmanag.R
 import com.example.jello_projectmanag.databinding.ActivityCardDetailsBinding
 import com.example.jello_projectmanag.models.Board
@@ -24,6 +25,15 @@ class CardDetailsActivity : AppCompatActivity() {
 
         getIntentData()
         setupActionBar()
+
+        binding.etNameCardDetails.setText(mBoardDetails
+            .taskList[mTaskListPosition]
+            .cards[mCardPosition].name)
+
+        //Set the cursor to the end of the existing text
+        binding.etNameCardDetails
+            .setSelection(binding
+                .etNameCardDetails.text.toString().length)
     }
 
     private fun setupActionBar() {
@@ -36,6 +46,11 @@ class CardDetailsActivity : AppCompatActivity() {
 
         }
         binding.toolbarCardDetailsActivity.setNavigationOnClickListener { onBackPressedDispatcher.onBackPressed() }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_delete_card,menu)
+        return super.onCreateOptionsMenu(menu)
     }
 
     private fun getIntentData(){

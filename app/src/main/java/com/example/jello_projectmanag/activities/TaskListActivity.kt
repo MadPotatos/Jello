@@ -158,7 +158,7 @@ class TaskListActivity : BaseActivity() {
         intent.putExtra(Constants.TASK_LIST_ITEM_POSITION,taskListPosition)
         intent.putExtra(Constants.CARD_LIST_ITEM_POSITION,cardPosition)
 
-        startActivity(intent)
+        reloadBoard.launch(intent)
 
     }
 }
