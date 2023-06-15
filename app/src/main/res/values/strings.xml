@@ -60,4 +60,7 @@
     <string name="select_due_date">Select Due Date</string>
 
     <string name="delete_card">Delete Card</string>
+    <string name="alert">Alert</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>

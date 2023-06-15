@@ -7,5 +7,5 @@ import kotlinx.parcelize.Parcelize
 data class Task(
     val title: String = "",
     val createdBy: String = "",
-    val cards: ArrayList<Card> = ArrayList()
+    var cards: ArrayList<Card> = ArrayList()
 ):Parcelable

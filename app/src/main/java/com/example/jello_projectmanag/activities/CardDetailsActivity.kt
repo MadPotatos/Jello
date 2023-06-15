@@ -1,15 +1,18 @@
 package com.example.jello_projectmanag.activities
 
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuItem
 import com.example.jello_projectmanag.R
 import com.example.jello_projectmanag.databinding.ActivityCardDetailsBinding
+import com.example.jello_projectmanag.firebase.FirestoreClass
 import com.example.jello_projectmanag.models.Board
+import com.example.jello_projectmanag.models.Card
+import com.example.jello_projectmanag.models.Task
 import com.example.jello_projectmanag.utils.Constants
 
-class CardDetailsActivity : AppCompatActivity() {
+class CardDetailsActivity : BaseActivity(){
 
     private lateinit var mBoardDetails: Board
     private var mTaskListPosition = -1
@@ -34,6 +37,20 @@ class CardDetailsActivity : AppCompatActivity() {
         binding.etNameCardDetails
             .setSelection(binding
                 .etNameCardDetails.text.toString().length)
+
+        binding.btnUpdateCardDetails.setOnClickListener {
+            if(binding.etNameCardDetails.text.toString().isNotEmpty()){
+                updateCardDetails()
+            }else{
+                showErrorSnackBar("Please enter a card name")
+            }
+        }
+    }
+
+    fun addUpdateTaskListSuccess(){
+        hideProgressDialog()
+        setResult(RESULT_OK)
+        finish()
     }
 
     private fun setupActionBar() {
@@ -53,6 +70,16 @@ class CardDetailsActivity : AppCompatActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId){
+            R.id.action_delete_card ->{
+                alertDialogForDeleteCard(mBoardDetails.taskList[mTaskListPosition].cards[mCardPosition].name)
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
     private fun getIntentData(){
         if(intent.hasExtra(Constants.BOARD_DETAIL)){
             mBoardDetails = if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
@@ -69,5 +96,52 @@ class CardDetailsActivity : AppCompatActivity() {
         if (intent.hasExtra(Constants.CARD_LIST_ITEM_POSITION)){
             mCardPosition = intent.getIntExtra(Constants.CARD_LIST_ITEM_POSITION, -1)
         }
+    }
+
+    private fun updateCardDetails(){
+        val card = Card(
+            binding.etNameCardDetails.text.toString(),
+            mBoardDetails.taskList[mTaskListPosition].cards[mCardPosition].createdBy,
+            mBoardDetails.taskList[mTaskListPosition].cards[mCardPosition].assignedTo,
+        )
+        mBoardDetails.taskList[mTaskListPosition].cards[mCardPosition] = card
+
+        showProgressDialog(resources.getString(R.string.please_wait))
+        FirestoreClass().addUpdateTaskList(this,mBoardDetails)
+    }
+
+    private fun deleteCard(){
+        val cardsList: ArrayList<Card> = mBoardDetails
+            .taskList[mTaskListPosition]
+            .cards
+
+        cardsList.removeAt(mCardPosition)
+
+        val taskList: ArrayList<Task> = mBoardDetails.taskList
+        taskList.removeAt(taskList.size-1)
+
+        taskList[mTaskListPosition].cards = cardsList
+
+        showProgressDialog(resources.getString(R.string.please_wait))
+        FirestoreClass().addUpdateTaskList(this,mBoardDetails)
+    }
+
+    private fun alertDialogForDeleteCard(cardName: String){
+        val builder = android.app.AlertDialog.Builder(this)
+        builder.setTitle(resources.getString(R.string.alert))
+        builder.setMessage(
+            "Are you sure you want to delete $cardName ?"
+            )
+        builder.setIcon(android.R.drawable.ic_dialog_alert)
+        builder.setPositiveButton(resources.getString(R.string.yes)){ dialogInterface, _ ->
+            dialogInterface.dismiss()
+            deleteCard()
+        }
+        builder.setNegativeButton(resources.getString(R.string.no)){ dialogInterface, _ ->
+            dialogInterface.dismiss()
+        }
+        val alertDialog: android.app.AlertDialog = builder.create()
+        alertDialog.setCancelable(false)
+        alertDialog.show()
     }
 }
