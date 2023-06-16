@@ -51,4 +51,16 @@
     <string name="add">Add</string>
     <string name="search_member">Search Member</string>
     <string name="please_enter_email">Please enter email</string>
+
+    <!-- Strings for the Card Details Screen -->
+    <string name="label_color">Label Color</string>
+    <string name="select_color">Select Color</string>
+    <string name="select_members">Select Members</string>
+    <string name="due_date">Due Date</string>
+    <string name="select_due_date">Select Due Date</string>
+
+    <string name="delete_card">Delete Card</string>
+    <string name="alert">Alert</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>

@@ -46,11 +46,7 @@ class TaskListActivity : BaseActivity() {
         FirestoreClass().getBoardDetails(this,mBoardDocumentId)
     }
 
-    override fun onResume() {
-        super.onResume()
-        showProgressDialog(resources.getString(R.string.please_wait))
-        FirestoreClass().getBoardDetails(this,mBoardDocumentId)
-    }
+
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_members,menu)
@@ -96,6 +92,8 @@ class TaskListActivity : BaseActivity() {
 
         val adapter = TaskListItemsAdapter(this, board.taskList)
         binding.rvTaskList.adapter = adapter
+
+
     }
 
     fun addUpdateTaskListSuccess(){
@@ -152,5 +150,15 @@ class TaskListActivity : BaseActivity() {
 
         showProgressDialog(resources.getString(R.string.please_wait))
         FirestoreClass().addUpdateTaskList(this,mBoardDetails)
+    }
+
+    fun cardDetails(taskListPosition: Int, cardPosition: Int){
+        val intent = Intent(this, CardDetailsActivity::class.java)
+        intent.putExtra(Constants.BOARD_DETAIL,mBoardDetails)
+        intent.putExtra(Constants.TASK_LIST_ITEM_POSITION,taskListPosition)
+        intent.putExtra(Constants.CARD_LIST_ITEM_POSITION,cardPosition)
+
+        reloadBoard.launch(intent)
+
     }
 }
