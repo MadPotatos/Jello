@@ -12,6 +12,7 @@ import com.example.jello_projectmanag.firebase.FirestoreClass
 import com.example.jello_projectmanag.models.Board
 import com.example.jello_projectmanag.models.Card
 import com.example.jello_projectmanag.models.Task
+import com.example.jello_projectmanag.models.User
 import com.example.jello_projectmanag.utils.Constants
 
 class CardDetailsActivity : BaseActivity(){
@@ -20,6 +21,7 @@ class CardDetailsActivity : BaseActivity(){
     private var mTaskListPosition = -1
     private var mCardPosition = -1
     private var mSelectedColor = ""
+    private lateinit var mMembersDetailList: ArrayList<User>
 
 
     private lateinit var binding: ActivityCardDetailsBinding
@@ -109,6 +111,15 @@ class CardDetailsActivity : BaseActivity(){
         }
         if (intent.hasExtra(Constants.CARD_LIST_ITEM_POSITION)){
             mCardPosition = intent.getIntExtra(Constants.CARD_LIST_ITEM_POSITION, -1)
+        }
+        if (intent.hasExtra(Constants.BOARD_MEMBERS_LIST)){
+            mMembersDetailList = if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
+                intent.getParcelableArrayListExtra(Constants.BOARD_MEMBERS_LIST, User::class.java)!!
+
+            } else{
+                @Suppress("DEPRECATION")
+                intent.getParcelableArrayListExtra(Constants.BOARD_MEMBERS_LIST)!!
+            }
         }
     }
 
