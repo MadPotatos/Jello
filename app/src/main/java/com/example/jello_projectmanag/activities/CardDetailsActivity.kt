@@ -8,6 +8,7 @@ import android.view.MenuItem
 import com.example.jello_projectmanag.R
 import com.example.jello_projectmanag.databinding.ActivityCardDetailsBinding
 import com.example.jello_projectmanag.dialogs.LabelColorListDialog
+import com.example.jello_projectmanag.dialogs.MembersListDialog
 import com.example.jello_projectmanag.firebase.FirestoreClass
 import com.example.jello_projectmanag.models.Board
 import com.example.jello_projectmanag.models.Card
@@ -60,6 +61,10 @@ class CardDetailsActivity : BaseActivity(){
 
         binding.tvSelectLabelColor.setOnClickListener {
             labelColorsListDialog()
+        }
+
+        binding.tvSelectMembers.setOnClickListener {
+            membersListDialog()
         }
     }
 
@@ -202,6 +207,38 @@ class CardDetailsActivity : BaseActivity(){
             override fun onItemSelected(color: String) {
                 mSelectedColor = color
                 setColor()
+            }
+        }
+        listDialog.show()
+    }
+
+    private fun membersListDialog(){
+        var cardAssignedMembersList = mBoardDetails
+            .taskList[mTaskListPosition]
+            .cards[mCardPosition].assignedTo
+
+        // check who is assigned to board and then show them in dialog
+        if(cardAssignedMembersList.size > 0){
+            for(i in mMembersDetailList.indices){
+                for(j in cardAssignedMembersList){
+                    if(mMembersDetailList[i].id == j){
+                        mMembersDetailList[i].selected = true
+                    }
+                }
+            }
+        }else{
+            for(i in mMembersDetailList.indices){
+                mMembersDetailList[i].selected = false
+            }
+        }
+
+        val listDialog = object : MembersListDialog(
+            this,
+            mMembersDetailList,
+            resources.getString(R.string.str_select_member)
+        ){
+            override fun onItemSelected(user: User, action: String) {
+
             }
         }
         listDialog.show()

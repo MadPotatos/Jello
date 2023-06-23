@@ -26,6 +26,8 @@ object Constants {
     const val CARD_LIST_ITEM_POSITION: String = "card_list_item_position"
     const val READ_STORAGE_PERMISSION_CODE = 1
     const val BOARD_MEMBERS_LIST: String = "board_members_list"
+    const val SELECT: String = "Select"
+    const val UN_SELECT: String = "UnSelect"
 
     fun showImageChooser(activity: Activity) {
         // An intent for launching the image selection of phone storage.
