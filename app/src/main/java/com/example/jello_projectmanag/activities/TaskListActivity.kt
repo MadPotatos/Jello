@@ -13,12 +13,14 @@ import com.example.jello_projectmanag.firebase.FirestoreClass
 import com.example.jello_projectmanag.models.Board
 import com.example.jello_projectmanag.models.Card
 import com.example.jello_projectmanag.models.Task
+import com.example.jello_projectmanag.models.User
 import com.example.jello_projectmanag.utils.Constants
 
 class TaskListActivity : BaseActivity() {
 
     private lateinit var mBoardDetails: Board
     private lateinit var mBoardDocumentId: String
+    lateinit var mAssignedMembersDetailList: ArrayList<User>
     private lateinit var binding: ActivityTaskListBinding
 
     private val reloadBoard = registerForActivityResult(
@@ -82,17 +84,10 @@ class TaskListActivity : BaseActivity() {
         setupActionBar()
 
 
-        val addTaskList = Task(resources.getString(R.string.add_list))
 
-        board.taskList.add(addTaskList)
 
-        binding.rvTaskList.layoutManager = LinearLayoutManager(
-            this, LinearLayoutManager.HORIZONTAL, false)
-        binding.rvTaskList.setHasFixedSize(true)
-
-        val adapter = TaskListItemsAdapter(this, board.taskList)
-        binding.rvTaskList.adapter = adapter
-
+        showProgressDialog(resources.getString(R.string.please_wait))
+        FirestoreClass().getAssignedMembersListDetails(this,mBoardDetails.assignedTo)
 
     }
 
@@ -152,12 +147,31 @@ class TaskListActivity : BaseActivity() {
         FirestoreClass().addUpdateTaskList(this,mBoardDetails)
     }
 
+    fun boardMembersDetailsList(list: ArrayList<User>){
+        mAssignedMembersDetailList = list
+
+        hideProgressDialog()
+
+        val addTaskList = Task(resources.getString(R.string.add_list))
+
+        mBoardDetails.taskList.add(addTaskList)
+
+        binding.rvTaskList.layoutManager = LinearLayoutManager(
+            this, LinearLayoutManager.HORIZONTAL, false)
+        binding.rvTaskList.setHasFixedSize(true)
+
+        val adapter = TaskListItemsAdapter(this, mBoardDetails.taskList)
+        binding.rvTaskList.adapter = adapter
+
+
+    }
+
     fun cardDetails(taskListPosition: Int, cardPosition: Int){
         val intent = Intent(this, CardDetailsActivity::class.java)
         intent.putExtra(Constants.BOARD_DETAIL,mBoardDetails)
         intent.putExtra(Constants.TASK_LIST_ITEM_POSITION,taskListPosition)
         intent.putExtra(Constants.CARD_LIST_ITEM_POSITION,cardPosition)
-
+        intent.putExtra(Constants.BOARD_MEMBERS_LIST,mAssignedMembersDetailList)
         reloadBoard.launch(intent)
 
     }
