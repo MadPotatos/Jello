@@ -13,7 +13,8 @@ import com.example.jello_projectmanag.models.SelectedMembers
 
 open class CardMemberListItemsAdapter (
     private val context: Context,
-    private val list: ArrayList<SelectedMembers>
+    private val list: ArrayList<SelectedMembers>,
+    private val assignedMembers: Boolean
     ):RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var onClickListener: OnClickListener? = null
@@ -32,7 +33,7 @@ open class CardMemberListItemsAdapter (
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val model = list[position]
         if (holder is MyViewHolder) {
-            if (position == list.size - 1) {
+            if (position == list.size - 1 && assignedMembers) {
                 holder.ivAddMember.visibility = android.view.View.VISIBLE
                 holder.ivSelectedMemberImage.visibility = android.view.View.GONE
             }else{

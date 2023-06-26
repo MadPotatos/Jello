@@ -300,7 +300,7 @@ class CardDetailsActivity : BaseActivity(){
                 this, 6
             )
             val adapter = CardMemberListItemsAdapter(
-                this, selectedMembersList
+                this, selectedMembersList,true
             )
             binding.rvSelectedMembersList.adapter = adapter
             adapter.setOnClickListener(
