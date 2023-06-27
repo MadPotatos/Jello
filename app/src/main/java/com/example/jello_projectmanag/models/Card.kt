@@ -9,4 +9,5 @@ data class Card(
     val createdBy: String = "",
     val assignedTo: ArrayList<String> = ArrayList(),
     val labelColor: String = "",
+    val dueDate : Long = 0
 ): Parcelable
