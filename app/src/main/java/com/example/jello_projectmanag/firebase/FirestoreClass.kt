@@ -119,7 +119,7 @@ class FirestoreClass {
                     activity.hideProgressDialog()
 
                 Log.e(activity.javaClass.simpleName, "Error while creating a board.", exception)
-                Toast.makeText(activity, "Error while creating a board.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(activity, "Error while updating task list.", Toast.LENGTH_SHORT).show()
             }
     }
 

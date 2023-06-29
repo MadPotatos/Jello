@@ -82,10 +82,6 @@ class TaskListActivity : BaseActivity() {
         mBoardDetails = board
         hideProgressDialog()
         setupActionBar()
-
-
-
-
         showProgressDialog(resources.getString(R.string.please_wait))
         FirestoreClass().getAssignedMembersListDetails(this,mBoardDetails.assignedTo)
 
@@ -93,7 +89,7 @@ class TaskListActivity : BaseActivity() {
 
     fun addUpdateTaskListSuccess(){
         hideProgressDialog()
-        showProgressDialog(resources.getString(R.string.please_wait))
+        //showProgressDialog(resources.getString(R.string.please_wait))
         FirestoreClass().getBoardDetails(this,mBoardDetails.documentId)
     }
 
@@ -164,6 +160,14 @@ class TaskListActivity : BaseActivity() {
         binding.rvTaskList.adapter = adapter
 
 
+    }
+
+    fun updateCardsInTaskList(taskListPosition: Int, cards: ArrayList<Card>){
+        mBoardDetails.taskList.removeAt(mBoardDetails.taskList.size-1)
+
+        mBoardDetails.taskList[taskListPosition].cards = cards
+
+        FirestoreClass().addUpdateTaskList(this,mBoardDetails)
     }
 
     fun cardDetails(taskListPosition: Int, cardPosition: Int){
