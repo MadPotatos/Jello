@@ -29,6 +29,10 @@ object Constants {
     const val SELECT: String = "Select"
     const val UN_SELECT: String = "UnSelect"
 
+    const val JELLO_PREFERENCES: String = "JelloPrefs"
+    const val FCM_TOKEN_UPDATED: String = "fcmTokenUpdated"
+    const val FCM_TOKEN: String = "fcmToken"
+
     fun showImageChooser(activity: Activity) {
         // An intent for launching the image selection of phone storage.
         val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
