@@ -21,4 +21,49 @@
     <string name="err_msg_enter_name">Please enter a name</string>
     <string name="err_msg_enter_email">Please enter an email</string>
     <string name="err_msg_enter_password">Please enter a password</string>
+
+    <!--Strings for the Home Screen-->
+    <string name="nav_my_profile">My Profile</string>
+    <string name="nav_sign_out">Sign Out</string>
+    <string name="fab_description">Create board</string>
+    <string name="no_boards_are_available">No Boards are available!!!</string>
+
+    <!--Strings for the My Profile Screen-->
+    <string name="mobile">Mobile</string>
+    <string name="update">UPDATE</string>
+    <string name="my_profile_title">My Profile</string>
+
+    <!--Strings for the Create Board Screen-->
+    <string name="create_board_title">Create Board</string>
+    <string name="create">CREATE</string>
+    <string name="board_name">Board Name</string>
+
+    <!--Strings for the Task List Screen-->
+    <string name="action_add_list">Add List</string>
+    <string name="hint_list_name">List Name</string>
+    <string name="action_add_card">Add Card</string>
+    <string name="hint_card_name">Card Name</string>
+    <string name="add_list">Add List</string>
+
+    <string name="members">Members</string>
+    <string name="add_member">Add Member</string>
+    <string name="cancel">Cancel</string>
+    <string name="add">Add</string>
+    <string name="search_member">Search Member</string>
+    <string name="please_enter_email">Please enter email</string>
+
+    <!-- Strings for the Card Details Screen -->
+    <string name="label_color">Label Color</string>
+    <string name="select_color">Select Color</string>
+    <string name="select_members">Select Members</string>
+    <string name="due_date">Due Date</string>
+    <string name="select_due_date">Select Due Date</string>
+
+    <string name="delete_card">Delete Card</string>
+    <string name="alert">Alert</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+
+    <string name="str_select_label_color">Select Label Color</string>
+    <string name="str_select_member">Select Member</string>
 </resources>

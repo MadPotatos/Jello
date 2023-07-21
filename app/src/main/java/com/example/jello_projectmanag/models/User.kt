@@ -1,6 +1,6 @@
 package com.example.jello_projectmanag.models
 
-import android.os.Parcel
+
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
@@ -11,6 +11,7 @@ data class User(
     var email: String = "",
     var image: String = "",
     var mobile: Long = 0,
-    var fcmToken: String = ""
+    var fcmToken: String = "",
+    var selected: Boolean = false
 
 ): Parcelable

@@ -8,12 +8,13 @@ import android.os.Looper
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.example.jello_projectmanag.R
-import com.example.jello_projectmanag.databinding.ActivityIntroBinding
 import com.example.jello_projectmanag.databinding.DialogProgressBinding
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 
 open class BaseActivity : AppCompatActivity() {
+
+
 
     private  var doubleBackToExitPressedOnce = false
     private lateinit var mProcessDialog: Dialog
@@ -36,9 +37,7 @@ open class BaseActivity : AppCompatActivity() {
         mProcessDialog.dismiss()
     }
 
-    fun getCurrentUserID(): String {
-        return FirebaseAuth.getInstance().currentUser!!.uid
-    }
+
 
     fun doubleBackToExit() {
         if (doubleBackToExitPressedOnce) {
@@ -64,5 +63,9 @@ open class BaseActivity : AppCompatActivity() {
 
             snackBar.show()
 
+    }
+
+    fun getCurrentUserID(): String {
+        return FirebaseAuth.getInstance().currentUser!!.uid
     }
 }
